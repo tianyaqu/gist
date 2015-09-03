@@ -17,7 +17,7 @@ void ThreadPool::run()
         Task t(std::move(queue.take()));
         std::cout<<t.get_name()<<std::endl;
     }
-    std::cout<<"brk\n";
+    //std::cout<<"brk\n";
 }
 
 void ThreadPool::start()
