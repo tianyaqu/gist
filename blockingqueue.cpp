@@ -25,7 +25,7 @@ Task BlockingQueue::take()
     {
         cond.wait(lock);
     }
-    if(queue.size() > 0)
+    if(!quit)
     {
         Task t(std::move(queue.front()));
         queue.pop();
