@@ -39,6 +39,7 @@ void ThreadPool::stop()
 
 void ThreadPool::submit(Task&& x)
 {
-    queue.put(std::move(x));
+    //queue.put(std::move(x));
+    queue.put(std::forward<Task>(x));
 }
 
