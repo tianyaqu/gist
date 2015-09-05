@@ -10,15 +10,14 @@ BlockingQueue::~BlockingQueue()
 
 }
 
-void BlockingQueue::put(Task&& t)
+void BlockingQueue::put(std::function<void()>&& f)
 {
     std::unique_lock<std::mutex> lock(mtx);
-    queue.push(std::move(t));
-
+    queue.push(std::move(f));
     cond.notify_all();
 }
 
-Task BlockingQueue::take()
+std::function<void()> BlockingQueue::take()
 {
     std::unique_lock<std::mutex> lock(mtx);
     while(queue.empty() && !quit)
@@ -27,12 +26,12 @@ Task BlockingQueue::take()
     }
     if(!quit)
     {
-        Task t(std::move(queue.front()));
+        std::function<void()> task(std::move(queue.front()));
         queue.pop();
-        return t;
+        return task;
     }else
     {
-        return Task("quit");
+        return ([](){});
     }
 }
 

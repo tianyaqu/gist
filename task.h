@@ -5,7 +5,9 @@
 class Task
 {
 public:
-    Task(std::string);
+    //Task(std::string);
+    template<class F, class... Args>
+    Task(std::string,F&& f, Args&&... args);
     ~Task();
     unsigned long long get_id(){return id;}
     void execute();
